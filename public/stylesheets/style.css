@@ -1,0 +1,70 @@
+body {
+  background-color: antiquewhite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 100vw;
+}
+
+h1 {
+  text-align: center;
+  font-family: "Satisfy", cursive;
+  font-size: 70px;
+}
+
+p {
+  text-align: center;
+  font-family: "Raleway";
+}
+
+form {
+  font-family: "Raleway";
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: #f1dedc;
+  padding: 20px 30px;
+  border-radius: 20px;
+  box-shadow: 5px 6px #e1dabd;
+  margin: 20px 10px;
+}
+
+button {
+  font-family: "Raleway";
+  font-size: 15px;
+  background-color: #e1dabd;
+  border: none;
+  border-radius: 15px;
+  color: black;
+  padding: 10px;
+  cursor: pointer;
+  align-self: center;
+}
+
+button:hover {
+  background-color: #abc798;
+}
+button:active {
+  background-color: #e1dabd;
+}
+
+label,
+input,
+textarea {
+  margin: 10px 2px 0 2px;
+  width: 180px;
+  font-family: "Raleway";
+}
+
+textarea::placeholder {
+  opacity: 0.5;
+  color: grey;
+}
+
+#description {
+  height: 100px;
+  margin-bottom: 10px;
+  text-align: left;
+}
