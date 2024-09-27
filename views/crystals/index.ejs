@@ -15,28 +15,23 @@
     />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Add a Crystal</title>
+    <title>Crystal Collection</title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
-    <h1>Add a Crystal</h1>
-    <form action="/crystals" method="post">
-      <label for="name">Name:</label>
-      <input type="text" name="name" id="name" />
-
-      <label for="colour">Colour:</label>
-      <input type="text" name="colour" id="colour" />
-
-      <label for="description">Description:</label>
-      <textarea
-        type="text"
-        name="description"
-        id="description"
-        placeholder="Properties, Origin or Effects"
-      ></textarea>
-
-      <button type="submit">Add Crystal</button>
-    </form>
-    <a href="/crystals">Browse Crystals</a>
+    <h1>Crystal Collection</h1>
+    <div>
+      <ul>
+        <% crystals.forEach(crystal => { %>
+        <li>
+          <a href="/crystals/<%=crystal._id%>"><%= crystal.name %></a>
+        </li>
+        <br />
+        <% }); %>
+      </ul>
+    </div>
+    <a href="crystals/new">Add to the Collection</a>
+    <br />
+    <a href="/">Home</a>
   </body>
 </html>

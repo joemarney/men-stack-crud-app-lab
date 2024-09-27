@@ -15,28 +15,20 @@
     />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Add a Crystal</title>
+    <title><%= crystal.name %></title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
-    <h1>Add a Crystal</h1>
-    <form action="/crystals" method="post">
-      <label for="name">Name:</label>
-      <input type="text" name="name" id="name" />
+    <h1><%= crystal.name %></h1>
+    <h2 id="crystal-colour"><%= crystal.colour %></h2>
+    <p><%= crystal.description %></p>
 
-      <label for="colour">Colour:</label>
-      <input type="text" name="colour" id="colour" />
-
-      <label for="description">Description:</label>
-      <textarea
-        type="text"
-        name="description"
-        id="description"
-        placeholder="Properties, Origin or Effects"
-      ></textarea>
-
-      <button type="submit">Add Crystal</button>
+    <form action="/crystals/<%= crystal._id%>?_method=DELETE" method="post">
+      <a href="/crystals/<%=crystal._id%>/edit">Edit <%= crystal.name %></a>
+      <br />
+      <button type="submit">Delete <%= crystal.name %></button>
+      <br />
+      <a href="/crystals">Back to Collection</a>
     </form>
-    <a href="/crystals">Browse Crystals</a>
   </body>
 </html>

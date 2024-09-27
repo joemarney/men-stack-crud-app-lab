@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   background-color: antiquewhite;
   display: flex;
@@ -5,49 +9,82 @@ body {
   align-items: center;
   justify-content: center;
   max-width: 100vw;
+  color: #443850;
+  margin: 0px 100px;
 }
 
 h1 {
   text-align: center;
   font-family: "Satisfy", cursive;
   font-size: 70px;
+  color: #443850;
 }
 
 p {
   text-align: center;
-  font-family: "Raleway";
+  font-family: "Raleway", system-ui;
 }
-
-form {
-  font-family: "Raleway";
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  background-color: #f1dedc;
-  padding: 20px 30px;
-  border-radius: 20px;
-  box-shadow: 5px 6px #e1dabd;
-  margin: 20px 10px;
-}
-
+a,
 button {
-  font-family: "Raleway";
+  text-align: center;
+  font-family: "Raleway", system-ui;
+  text-decoration: none;
   font-size: 15px;
-  background-color: #e1dabd;
+  background-color: #c0b9dd;
+  opacity: 0.8;
   border: none;
   border-radius: 15px;
   color: black;
   padding: 10px;
   cursor: pointer;
   align-self: center;
+  margin-top: 10px;
 }
 
+a:hover,
 button:hover {
-  background-color: #abc798;
+  background-color: #dafeb7;
 }
+a:active,
 button:active {
-  background-color: #e1dabd;
+  background-color: #b1cc74;
+}
+
+div {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+ul {
+  font-family: "Raleway", system-ui;
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 60%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+li {
+  padding: 5px;
+  width: 33%;
+  display: flex;
+  justify-content: center;
+}
+
+form {
+  font-family: "Raleway", system-ui;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: #ded9e2;
+  padding: 20px 30px;
+  border-radius: 20px;
+  box-shadow: 5px 6px #443850;
+  margin: 20px 10px;
 }
 
 label,
@@ -67,4 +104,16 @@ textarea::placeholder {
   height: 100px;
   margin-bottom: 10px;
   text-align: left;
+}
+
+#crystal-colour {
+  font-family: "Satisfy", cursive;
+  font-size: 40px;
+  margin: 0;
+}
+
+#fourohfour {
+  text-align: center;
+  font-family: "Raleway";
+  font-size: 50px;
 }
