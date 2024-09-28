@@ -20,7 +20,7 @@
   </head>
   <body>
     <h1>Crystal Collection</h1>
-    <div>
+    <div id="crystal-wrapper">
       <ul>
         <% crystals.forEach(crystal => { %>
         <li>
@@ -30,8 +30,10 @@
         <% }); %>
       </ul>
     </div>
-    <a href="crystals/new">Add to the Collection</a>
-    <br />
-    <a href="/">Home</a>
+    <div id="button-wrapper">
+      <a href="crystals/new">Add to the Collection</a>
+      <br />
+      <a href="/">Home</a>
+    </div>
   </body>
 </html>

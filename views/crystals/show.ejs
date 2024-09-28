@@ -24,11 +24,11 @@
     <p><%= crystal.description %></p>
 
     <form action="/crystals/<%= crystal._id%>?_method=DELETE" method="post">
+      <a href="/crystals">Back to Collection</a>
+      <br />
       <a href="/crystals/<%=crystal._id%>/edit">Edit <%= crystal.name %></a>
       <br />
       <button type="submit">Delete <%= crystal.name %></button>
-      <br />
-      <a href="/crystals">Back to Collection</a>
     </form>
   </body>
 </html>

@@ -3,7 +3,7 @@
 }
 
 body {
-  background-color: antiquewhite;
+  background-color: rgb(212, 212, 195);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -50,7 +50,7 @@ button:active {
   background-color: #b1cc74;
 }
 
-div {
+#crystal-wrapper {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -64,14 +64,14 @@ ul {
   max-width: 60%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 li {
-  padding: 5px;
+  padding: 1px;
   width: 33%;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 form {
@@ -101,7 +101,7 @@ textarea::placeholder {
 }
 
 #description {
-  height: 100px;
+  height: 90px;
   margin-bottom: 10px;
   text-align: left;
 }
@@ -116,4 +116,22 @@ textarea::placeholder {
   text-align: center;
   font-family: "Raleway";
   font-size: 50px;
+  color: rgb(212, 212, 195);
+}
+
+#lost-page {
+  background-color: #181323;
+  color: rgb(212, 212, 195);
+}
+
+#button-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: #ded9e2;
+  padding: 20px 30px;
+  border-radius: 20px;
+  box-shadow: 5px 6px #443850;
+  margin: 20px 10px;
 }
