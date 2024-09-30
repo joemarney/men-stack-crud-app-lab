@@ -2,108 +2,53 @@ const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
+const session = require("express-session");
 require("dotenv/config");
 
 const app = express();
 const port = 3000;
 
 // IMPORT
-const Crystal = require("./models/crystal.js");
+const crystalsRouter = require("./controllers/crystals.js");
+const authController = require("./controllers/auth.js");
 
 // MIDDLEWARE
 app.use(express.static("public"));
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride("_method"));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 //LANDING PAGE
 app.get("/", async (req, res) => {
-  res.render("index.ejs");
+  res.render("index.ejs", {
+    user: req.session.user,
+  });
 });
 
-// FORM
-app.get("/crystals/new", (req, res) => {
-  res.render("crystals/new.ejs");
-});
-
-// CREATE
-app.post("/crystals", async (req, res) => {
+// PROTECTED ROUTE
+app.get("/vip-lounge", (req, res) => {
   try {
-    const crystal = await Crystal.create(req.body);
-    console.log(crystal);
-    return res.redirect("/crystals");
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send("Error");
-  }
-});
-
-// READ
-app.get("/crystals", async (req, res) => {
-  try {
-    const crystals = await Crystal.find();
-    return res.render("crystals/index.ejs", {
-      crystals: crystals,
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send("Error");
-  }
-});
-
-// SHOW
-app.get("/crystals/:crystalId", async (req, res, next) => {
-  try {
-    if (mongoose.Types.ObjectId.isValid(req.params.crystalId)) {
-      const crystal = await Crystal.findById(req.params.crystalId);
-      if (!crystal) return next();
-      return res.render("crystals/show.ejs", { crystal });
+    if (req.session.user) {
+      res.send(`Welcome to the party ${res.session.user.username}`);
+    } else {
+      res.send("Sorry, you are not on the list.");
     }
-    next();
   } catch (error) {
     console.log(error);
     return res.status(500).send("Error");
   }
 });
 
-// DELETE
-app.delete("/crystals/:crystalId", async (req, res) => {
-  try {
-    await Crystal.findByIdAndDelete(req.params.crystalId);
-    return res.redirect("/crystals");
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send("Error");
-  }
-});
-
-// EDIT
-app.get("/crystals/:crystalId/edit", async (req, res, next) => {
-  try {
-    if (mongoose.Types.ObjectId.isValid(req.params.crystalId)) {
-      const crystal = await Crystal.findById(req.params.crystalId);
-      if (!crystal) return next();
-      return res.render("crystals/edit.ejs", { crystal });
-    }
-    next();
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send("Error");
-  }
-});
-
-// UPDATE
-app.put("/crystals/:crystalId", async (req, res) => {
-  try {
-    await Crystal.findByIdAndUpdate(req.params.crystalId, req.body, {
-      returnDocument: "after",
-    }); // ask
-    return res.redirect("/crystals");
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send("Error");
-  }
-});
+// ROUTERS
+app.use("/crystals", crystalsRouter);
+app.use("/auth", authController);
 
 // 404 HANDLER
 app.get("*", (req, res) => {

@@ -15,31 +15,24 @@
     />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Crystals</title>
+    <title>Sign Up</title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
-    <h1>The Crystals App</h1>
-    <h3>An encyclopedia of crystals</h3>
-    <% if (user) { %>
-    <p>Welcome, <%= user.username %>!</p>
-    <% } else { %>
-    <p>Welcome, guest!</p>
-    <% } %>
-    <div id="button-wrapper">
-      <a href="/crystals">Browse Crystals</a>
-      <br />
-      <a href="/crystals/new">Add to the Collection</a>
-      <br />
-      <% if (user) { %>
-      <a href="/auth/log-out">Log out</a>
-      <% } else { %>
-      <a href="/auth/sign-up">Create an account</a>
-      <br />
-      <a href="/auth/log-in">Log in</a>
-      <% } %>
-      <br />
-      <a href="/vip-lounge">VIP Lounge</a>
-    </div>
+    <h1>Create an account</h1>
+    <form action="/auth/sign-up" method="post">
+      <label for="username">Username:</label>
+      <input type="text" name="username" id="username" required />
+      <label for="password">Password:</label>
+      <input type="password" name="password" id="password" required />
+      <label for="confirmPassword">Confirm Password:</label>
+      <input
+        type="password"
+        name="confirmPassword"
+        id="confirmPassword"
+        required
+      />
+      <button type="submit">Sign up</button>
+    </form>
   </body>
 </html>
