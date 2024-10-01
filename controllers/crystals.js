@@ -6,15 +6,20 @@ const router = express.Router();
 
 // MODEL
 const Crystal = require("../models/crystal.js");
+
+//MIDDLEWARE
+const isLoggedIn = require("../middleware/is-logged-in.js");
+
 // CONTROLLERS
 // FORM
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn, (req, res) => {
   res.render("crystals/new.ejs");
 });
 
 // CREATE
 router.post("/", async (req, res) => {
   try {
+    req.body.creator = req.session.user._id;
     const crystal = await Crystal.create(req.body);
     console.log(crystal);
     return res.redirect("/crystals");
@@ -41,8 +46,14 @@ router.get("/", async (req, res) => {
 router.get("/:crystalId", async (req, res, next) => {
   try {
     if (mongoose.Types.ObjectId.isValid(req.params.crystalId)) {
-      const crystal = await Crystal.findById(req.params.crystalId);
+      const crystal = await Crystal.findById(req.params.crystalId).populate(
+        "creator"
+      );
       if (!crystal) return next();
+
+      console.log("Creator:", crystal.creator);
+      console.log("Logged in user:", res.locals.user);
+
       return res.render("crystals/show.ejs", { crystal });
     }
     next();
@@ -55,8 +66,11 @@ router.get("/:crystalId", async (req, res, next) => {
 // DELETE
 router.delete("/:crystalId", async (req, res) => {
   try {
-    await Crystal.findByIdAndDelete(req.params.crystalId);
-    return res.redirect("/crystals");
+    const crystalDelete = await Crystal.findById(req.params.crystalId);
+    if (crystalDelete.creator.equals(req.session.user._id)) {
+      await Crystal.findByIdAndDelete(req.params.crystalId);
+      return res.redirect("/crystals");
+    }
   } catch (error) {
     console.log(error);
     return res.status(500).send("Error");
@@ -69,6 +83,9 @@ router.get("/:crystalId/edit", async (req, res, next) => {
     if (mongoose.Types.ObjectId.isValid(req.params.crystalId)) {
       const crystal = await Crystal.findById(req.params.crystalId);
       if (!crystal) return next();
+      if (!crystal.creator.equals(req.session.user._id)) {
+        return res.redirect(`/crystals/${req.params.crystalId}`);
+      }
       return res.render("crystals/edit.ejs", { crystal });
     }
     next();
@@ -79,12 +96,16 @@ router.get("/:crystalId/edit", async (req, res, next) => {
 });
 
 // UPDATE
-router.put("/:crystalId", async (req, res) => {
+router.put("/:crystalId", isLoggedIn, async (req, res) => {
   try {
-    await Crystal.findByIdAndUpdate(req.params.crystalId, req.body, {
-      returnDocument: "after",
-    }); // ask
-    return res.redirect("/crystals");
+    const crystalUpdate = await Crystal.findById(req.params.crystalId);
+    if (crystalUpdate.creator.equals(req.session.user._id)) {
+      await Crystal.findByIdAndUpdate(req.params.crystalId, req.body, {
+        returnDocument: "after",
+      }); // ask
+      return res.redirect(`/crystals/${req.params.crystalId}`);
+    }
+    return res.redirect(`/crystals/${req.params.crystalId}`);
   } catch (error) {
     console.log(error);
     return res.status(500).send("Error");

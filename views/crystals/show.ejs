@@ -26,9 +26,12 @@
     <form action="/crystals/<%= crystal._id%>?_method=DELETE" method="post">
       <a href="/crystals">Back to Collection</a>
       <br />
+      <% if (crystal.creator._id.equals(user._id)) { %>
       <a href="/crystals/<%=crystal._id%>/edit">Edit <%= crystal.name %></a>
       <br />
       <button type="submit">Delete <%= crystal.name %></button>
+      <% } %>
     </form>
+    <p>Created by <%= crystal.creator.username %></p>
   </body>
 </html>

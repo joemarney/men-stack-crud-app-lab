@@ -5,6 +5,11 @@ const crystalSchema = new mongoose.Schema({
   name: { type: String, required: true, unique: true },
   description: { type: String, required: true },
   colour: { type: String, required: true },
+  creator: {
+    type: mongoose.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
 // MODEL

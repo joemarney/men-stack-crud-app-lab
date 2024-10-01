@@ -12,6 +12,7 @@ const User = require("../models/user.js");
 router.get("/sign-up", (req, res) => {
   return res.render("auth/sign-up.ejs");
 });
+
 // SIGN UP
 router.post("/sign-up", async (req, res) => {
   try {
@@ -23,8 +24,14 @@ router.post("/sign-up", async (req, res) => {
     req.body.password = bcrypt.hashSync(req.body.password, 10);
     // create new user
     const newUser = await User.create(req.body);
+    req.session.user = {
+      username: newUser.username,
+      _id: newUser._id,
+    };
     // redirect
-    return res.redirect("/auth/log-in");
+    req.session.save(() => {
+      return res.redirect("/");
+    });
   } catch (error) {
     console.log(error);
     // error handling for when a username is already in use
@@ -37,10 +44,12 @@ router.post("/sign-up", async (req, res) => {
     return res.status(500).send("Error");
   }
 });
+
 // LOG IN FORM
 router.get("/log-in", (req, res) => {
   return res.render("auth/log-in.ejs");
 });
+
 // LOG IN
 router.post("/log-in", async (req, res) => {
   try {
@@ -56,7 +65,9 @@ router.post("/log-in", async (req, res) => {
       _id: userLogIn._id,
       username: userLogIn.username,
     };
-    return res.redirect("/");
+    req.session.save(() => {
+      return res.redirect("/");
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).send("Error");
@@ -65,8 +76,10 @@ router.post("/log-in", async (req, res) => {
 
 // LOG OUT
 router.get("/log-out", (req, res) => {
-  req.session.destroy();
-  return res.redirect("/");
+  req.session.destroy(() => {
+    return res.redirect("/");
+  });
 });
+
 // EXPORT
 module.exports = router;
