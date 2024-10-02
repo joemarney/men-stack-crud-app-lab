@@ -101,7 +101,7 @@ label,
 input,
 textarea {
   margin: 10px 2px 0 2px;
-  width: 180px;
+  width: 100%;
   font-family: "Raleway";
 }
 
@@ -116,7 +116,8 @@ textarea::placeholder {
   text-align: left;
 }
 
-#crystal-colour {
+#crystal-colour,
+#comments-heading {
   font-family: "Satisfy", cursive;
   font-size: 40px;
   margin: 0;
@@ -149,9 +150,35 @@ textarea::placeholder {
 nav {
   display: flex;
   background-color: rgb(212, 212, 195);
+  font-family: "Raleway";
 }
 #nav {
   background-color: rgb(212, 212, 195);
   padding: 0;
   margin: 10px;
+  font-family: "Raleway";
+}
+
+.comments {
+  width: auto;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.comment form button[type="submit"] {
+  font-size: 1rem;
+  background: transparent;
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+}
+
+.comment {
+  display: flex;
+  flex-direction: row;
+  background: transparent;
 }

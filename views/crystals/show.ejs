@@ -3,22 +3,17 @@
   <head>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Satisfy&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Satisfy&display=swap" rel="stylesheet" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= crystal.name %></title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
+    <%- include('../partials/_navbar.ejs') %>
     <h1><%= crystal.name %></h1>
     <h2 id="crystal-colour"><%= crystal.colour %></h2>
     <p><%= crystal.description %></p>
@@ -33,5 +28,36 @@
       <% } %>
     </form>
     <p>Created by <%= crystal.creator.username %></p>
+
+    <h2 id="comments-heading">Comments</h2>
+    <% if (crystal.comments.length > 0) { %>
+    <div class="comments">
+      <% crystal.comments.forEach(comment => { %>
+      <div class="comment">
+        <p>
+          <strong><%= comment.user.username %></strong>
+          <small><%= new Date(comment.createdAt).toDateString() %></small><br />
+          <%= comment.text %>
+        </p>
+        <% if (user && comment.user._id.equals(user._id)) { %>
+        <form class="comments" action="/crystals/<%= crystal._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+          <button type="submit">X</button>
+        </form>
+        <% } %>
+      </div>
+      <% }) %>
+    </div>
+    <% } else { %>
+    <p>There are no comments yet.</p>
+    <% } %> <% if (user) { %>
+    <form action="/crystals/<%= crystal._id%>/comments" method="post">
+      <label for="text">Comment:</label>
+      <input type="text" name="text" id="text" />
+      <% if (message) { %> <%= message %> <% } %>
+      <button type="submit">Send</button>
+    </form>
+    <% } else { %>
+    <a href="/auth/log-in">Log in</a>
+    <% } %>
   </body>
 </html>

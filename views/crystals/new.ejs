@@ -3,37 +3,28 @@
   <head>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Satisfy&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Satisfy&display=swap" rel="stylesheet" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Add a Crystal</title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
+    <%- include('../partials/_navbar.ejs') %>
     <h1>Add a Crystal</h1>
     <form action="/crystals" method="post">
       <label for="name">Name:</label>
-      <input type="text" name="name" id="name" />
-
+      <input type="text" name="name" id="name" value="<%= values.name %>" />
+      <% if (errors.name) { %> <%= errors.name.message %> <% } %>
       <label for="colour">Colour:</label>
-      <input type="text" name="colour" id="colour" />
-
+      <input type="text" name="colour" id="colour" value="<%= values.colour %>" />
+      <% if (errors.colour) { %> <%= errors.colour.message %> <% } %>
       <label for="description">Description:</label>
-      <textarea
-        type="text"
-        name="description"
-        id="description"
-        placeholder="Properties, Origin or Effects"
-      ></textarea>
+      <textarea type="text" name="description" id="description" placeholder="Properties, Origin or Effects"><%= values.description %></textarea>
+      <% if (errors.description) { %> <%= errors.description.message %> <% } %>
 
       <button type="submit">Add Crystal</button>
       <br />

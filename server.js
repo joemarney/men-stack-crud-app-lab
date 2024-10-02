@@ -14,6 +14,8 @@ const crystalsRouter = require("./controllers/crystals.js");
 const authController = require("./controllers/auth.js");
 const isLoggedIn = require("./middleware/is-logged-in.js");
 const passUserToView = require("./middleware/pass-user-to-view.js");
+const allowErrors = require("./middleware/errors.js");
+const initFlashMessage = require("./middleware/init-flash-message.js");
 
 // MIDDLEWARE
 app.use(express.static("public"));
@@ -29,6 +31,8 @@ app.use(
   })
 );
 app.use(passUserToView);
+app.use(allowErrors);
+app.use(initFlashMessage);
 
 //LANDING PAGE
 app.get("/", (req, res) => {

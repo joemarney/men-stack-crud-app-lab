@@ -17,7 +17,7 @@ router.get("/new", isLoggedIn, (req, res) => {
 });
 
 // CREATE
-router.post("/", async (req, res) => {
+router.post("/", isLoggedIn, async (req, res) => {
   try {
     req.body.creator = req.session.user._id;
     const crystal = await Crystal.create(req.body);
@@ -25,7 +25,7 @@ router.post("/", async (req, res) => {
     return res.redirect("/crystals");
   } catch (error) {
     console.log(error);
-    return res.status(500).send("Error");
+    return res.status(500).render("crystals/new.ejs", { errors: error.errors, values: req.body });
   }
 });
 
@@ -46,14 +46,8 @@ router.get("/", async (req, res) => {
 router.get("/:crystalId", async (req, res, next) => {
   try {
     if (mongoose.Types.ObjectId.isValid(req.params.crystalId)) {
-      const crystal = await Crystal.findById(req.params.crystalId).populate(
-        "creator"
-      );
+      const crystal = await Crystal.findById(req.params.crystalId).populate("creator").populate("comments.user");
       if (!crystal) return next();
-
-      console.log("Creator:", crystal.creator);
-      console.log("Logged in user:", res.locals.user);
-
       return res.render("crystals/show.ejs", { crystal });
     }
     next();
@@ -105,6 +99,45 @@ router.put("/:crystalId", isLoggedIn, async (req, res) => {
       }); // ask
       return res.redirect(`/crystals/${req.params.crystalId}`);
     }
+    throw new Error("User cannot perform this action!");
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send("Error");
+  }
+});
+
+// CREATE COMMENT
+router.post("/:crystalId/comments", async (req, res, next) => {
+  try {
+    req.body.user = req.session.user._id;
+    const crystal = await Crystal.findById(req.params.crystalId);
+    if (!crystal) return next();
+    crystal.comments.push(req.body);
+    await crystal.save();
+    console.log(req.body);
+    return res.redirect(`/crystals/${req.params.crystalId}`);
+  } catch (error) {
+    console.log(error);
+    req.session.message = error.message;
+    req.session.save(() => {
+      return res.redirect(`/crystals/${req.params.crystalId}`);
+    });
+    return res.status(500).send("Error");
+  }
+});
+
+// DELETE COMMENT
+router.delete("/:crystalId/comments/:commentId", async (req, res, next) => {
+  try {
+    const crystal = await Crystal.findById(req.params.crystalId);
+    if (!crystal) return next();
+    const deleteComment = crystal.comments.id(req.params.commentId);
+    if (!deleteComment) return next();
+    if (!deleteComment.user.equals(req.session.user._id)) {
+      throw new Error("User cannot perform this action!");
+    }
+    deleteComment.deleteOne();
+    await crystal.save();
     return res.redirect(`/crystals/${req.params.crystalId}`);
   } catch (error) {
     console.log(error);

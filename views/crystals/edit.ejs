@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
+    <%- include('../partials/_navbar.ejs') %>
     <h1>Edit <%= crystal.name %></h1>
     <form action="/crystals/<%= crystal._id %>?_method=PUT" method="post">
       <label for="name">Name:</label>
