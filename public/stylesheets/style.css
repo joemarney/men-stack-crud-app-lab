@@ -145,3 +145,13 @@ textarea::placeholder {
   box-shadow: 5px 6px #443850;
   margin: 20px 10px;
 }
+
+nav {
+  display: flex;
+  background-color: rgb(212, 212, 195);
+}
+#nav {
+  background-color: rgb(212, 212, 195);
+  padding: 0;
+  margin: 10px;
+}

@@ -1,11 +1,11 @@
 <nav>
-  <a href="/">Home</a>
-  <a href="/crystals">Crystals</a>
+  <a id="nav" href="/">Home</a>
+  <a id="nav" href="/crystals">Crystals</a>
   <% if(user) { %>
-  <a href="/crystals/new">Add a crystal</a>
-  <a href="/crystals/log-out">Log out</a>
+  <a id="nav" href="/crystals/new">Add a crystal</a>
+  <a id="nav" href="/auth/log-out">Log out</a>
   <% } else { %>
-  <a href="/auth/log-in">Log in</a>
-  <a href="/auth/sign-up">Sign up</a>
+  <a id="nav" href="/auth/log-in">Log in</a>
+  <a id="nav" href="/auth/sign-up">Sign up</a>
   <% } %>
 </nav>
