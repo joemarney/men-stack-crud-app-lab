@@ -53,7 +53,7 @@
     <form action="/crystals/<%= crystal._id%>/comments" method="post">
       <label for="text">Comment:</label>
       <input type="text" name="text" id="text" />
-      <% if (message) { %> <%= message %> <% } %>
+      <p id="failure"><% if (message) { %> <%= message %> <% } %></p>
       <button type="submit">Send</button>
     </form>
     <% } else { %>

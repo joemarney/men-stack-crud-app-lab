@@ -21,8 +21,10 @@ router.post("/", isLoggedIn, async (req, res) => {
   try {
     req.body.creator = req.session.user._id;
     const crystal = await Crystal.create(req.body);
-    console.log(crystal);
-    return res.redirect("/crystals");
+    req.session.message = "Crystal added successfully";
+    req.session.save(() => {
+      return res.redirect("/crystals");
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).render("crystals/new.ejs", { errors: error.errors, values: req.body });
@@ -122,12 +124,11 @@ router.post("/:crystalId/comments", async (req, res, next) => {
     req.session.save(() => {
       return res.redirect(`/crystals/${req.params.crystalId}`);
     });
-    return res.status(500).send("Error");
   }
 });
 
 // DELETE COMMENT
-router.delete("/:crystalId/comments/:commentId", async (req, res, next) => {
+router.delete("/:crystalId/comments/:commentId", isLoggedIn, async (req, res, next) => {
   try {
     const crystal = await Crystal.findById(req.params.crystalId);
     if (!crystal) return next();

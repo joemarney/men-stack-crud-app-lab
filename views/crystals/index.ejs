@@ -15,7 +15,7 @@
   <body>
     <%- include('../partials/_navbar.ejs') %>
     <h1>Crystal Collection</h1>
-    <% if (message) { %> <%= message %> <% } %>
+    <p id="success"><% if (message) { %> <%= message %> <% } %></p>
     <div id="crystal-wrapper">
       <ul>
         <% crystals.forEach(crystal => { %>
